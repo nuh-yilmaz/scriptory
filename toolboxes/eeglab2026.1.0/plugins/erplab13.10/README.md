@@ -1,0 +1,210 @@
+## Note: As of v13.10, ERPLAB has been updated to be compatible with MATLAB 2025a+. However, there may still be remaining bugs; please report them to us if you encounter issues! 
+
+ERPLAB Toolbox is a free, open-source Matlab package for analyzing ERP data. It is tightly integrated with [EEGLAB Toolbox](http://sccn.ucsd.edu/eeglab/), extending EEGLAB’s capabilities to provide robust, industrial-strength tools for ERP processing, visualization, and analysis. We have two versions: [ERPLAB Studio](https://github.com/ucdavis/erplab/wiki/ERPLAB-Studio-Manual) is a standalone package that provides an intuitive and easy-to-use graphical user interface. [ERPLAB Classic](https://github.com/ucdavis/erplab/wiki/Manual) is a plugin that runs inside the EEGLAB graphical user interface.
+</p>
+Click the Wiki icon at the top of the page for documentation, tutorials, and FAQs.
+</p>
+To ask questions, subscribe to the ERPLAB email list (https://erpinfo.org/erplab-email-list). Bug reports can be submitted via GitHub or by sending an email to erplab-bugreports@ucdavis.edu.
+
+## ERPLAB v13.10
+
+<p align="center" >
+  <a href="https://github.com/ucdavis/erplab/releases/download/13.10/erplab13.10.zip"><img src="https://github.com/ucdavis/erplab/blob/master/images/erplab-and-studio-logo.png">
+<br/>
+
+  <img src="https://cloud.githubusercontent.com/assets/5808953/8663301/1ff9a26a-297e-11e5-9e15-a7085569058f.png" width=300px >
+ </a>
+</p>
+
+
+This download contains both [ERPLAB Studio](https://github.com/ucdavis/erplab/wiki/ERPLAB-Studio-Manual) (our standalone Matlab program) and [ERPLAB Classic](https://github.com/ucdavis/erplab/wiki/Manual) (an EEGLAB plugin). If you are new to ERPLAB, we strongly recommend that you go through the [ERPLAB Studio Tutorial](https://github.com/ucdavis/erplab/wiki/ERPLAB-Studio-Tutorial) or [ERPLAB Classic Tutorial](https://github.com/ucdavis/erplab/wiki/ERPLAB-Tutorial) before trying to analyze your own data. If you are new to ERPLAB Studio but are already familiar with ERPLAB Classic, you can rapidly learn to use ERPLAB Studio by reading our [Transition Guide](https://ucdavis.app.box.com/v/studiotransition).
+
+[Click here](https://github.com/ucdavis/erplab/wiki/installation) for installation instructions.
+
+[Click here](https://github.com/ucdavis/erplab/wiki/Compatability-and-Required-Toolboxes) for information about required Matlab toolboxes and compatibility with different versions of Matlab, EEGLAB, Windows, MacOS, and Linux.
+
+We encourage most users to use this latest major version.
+
+### ERPLAB v13.10 Release Notes
+
+*Changes since previous release:*
+
+**Compatibility with recent MATLAB versions was the main focus of this release.** Starting in R2025a, MATLAB changed some aspects of how it renders GUIs, and removed support for some of the ways ERPLAB previously operated. This caused a wide range of visual and functional problems in both Studio and Classic. Current fixes include:
+
+- Removing all HTML-based text formatting from ERPLAB's interface. MATLAB's HTML rendering inside interface elements is being phased out and had already become unreliable in recent versions. Labels, tooltips, data quality tables, selection lists, and menu items now use native formatting that works consistently across all supported MATLAB versions.
+- Corrected font size issues throughout ERPLAB. Interface font sizes are now tied to pixel units so that text and layout should scale better across platforms and MATLAB versions.
+- Set ERPLAB to disable/ignore dark theme when applicable. Newer versions of MATLAB now support dark theme, however ERPLAB does not support dark theme currently. 
+- Added improved window stacking procedures to fix issues with ERPLAB windows being moved behind the MATLAB IDE window, and other window ordering issues. 
+- Fixed a crash affecting most Classic plotting windows, caused by a change in how MATLAB creates figure toolbars.
+- Fixed issues causing Classic ERP waveform plots to sometimes draw into a new window, leaving the ERPLAB figure blank.
+- Fixed issues causing some GUI pushbuttons to be broken or inactive.
+- Fixed various rendering/clipping/sizing issues for text, images, and plots throughout ERPLAB Classic and Studio.
+
+Many interface windows were converted out of MATLAB's binary GUIDE and App Designer formats, improving long-term maintainability and forward compatibility. 
+
+Substantial performance improvements to plotting in ERPLAB Classic. Plotting ERPs across large numbers of channels, and plotting large numbers of scalp maps is now dramatically faster. Previously, plots became progressively slower as more channels were drawn.
+
+Added a full reset button to Studio’s “Reset” GUI, which resets all ERPLAB Studio parameters to defaults.
+
+Various fixes for 3D head plots, including issues with "Max–Min" color bar scale stopping at 0, colormap selection not registering, and view angle not being preserved. 
+
+Fixed several cases where cancelling a dialog or encountering an error while running a function would result in an empty dataset being returned
+
+Fixed an issue with the optimized binlister algorithm where bin assignment could differ from the standard algorithm.
+
+Updated several script-only functions, including ERP smoothing, continuous data mean removal, and string-to-numeric event code conversion. The change to ERP smoothing also no longer requires the Curve Fitting Toolbox, which is no longer needed by any part of ERPLAB. 
+
+Various other minor bug fixes and GUI improvements throughout ERPLAB Studio and Classic.
+
+
+### ERPLAB v13.00 Release Notes
+
+*Changes since previous release:*
+
+New decoding features (thanks @guanghuizhang0328):
+- Added temporal generalization decoding to ERPLAB Classic and Studio: models trained at each time point are tested across all other time points, producing a full time×time generalization matrix.
+- Added the ability to plot time generalized decoding matrices via a new menu option in ERPLAB Classic and in the Studio pattern classification tab.
+- Added LDA (Linear Discriminant Analysis) and updated Crossnobis distance decoding methods alongside SVM in the Classic decoding GUI.
+- Added AUC (area under curve) as a metric for decoding results in Classic and Studio. 
+
+Numerous improvements for ERP plotting in Studio, including:
+- More consistent and flexible automatic spacing between plots 
+- Improved support for plotting simulated waveforms
+- Improved support for plotting arbitrarily small/large time windows and voltage scales
+- Improved default axis labeling
+- Faster performance for plotting many bins/channels
+- Updated behavior for plotting using "Simple 10/20 system order" channel arrangement
+- Fixed standard error plotting issues for time windows larger than epoch size
+
+Moved ERPLAB's internal working-state files out of the plugin installation directory and into a per-user storage location. This prevents permission errors and avoids runtime files being written into shared or read-only plugin folders. (thanks @StefKirsch)
+
+Reworked the ERP simulation panel in Studio with improved interface options, updated behavior for “compare with real data” option, smarter parameter checking and defaults, and more consistency between the advanced GUI and Studio versions.
+
+Updated and refactored the channel locations GUI in Studio, fixing various bugs, allowing a wider range of file types for saving/loading channel location files, adding better history logging for channel location operations, more user-friendly GUI window stacking, and improved behavior when missing channel location data.
+
+Added an updated file-save GUI when creating ERPsets from EEGsets, allowing more flexibility in maintaining vs. resetting file paths.
+
+Added additional parameter saving for scalp map creation, filtering, and artifact detection settings in Studio, so selections are preserved across sessions.
+
+Fixed issues with appending ERPset files, including an issue with files saved using a .mat extension instead of .erp in some cases, and an issue with data quality metrics not being properly appended.
+
+Various other minor bug fixes and GUI improvements throughout ERPLAB Studio. 
+
+### ERPLAB v12.20 Release Notes
+
+*Changes since previous release:*
+
+Adoption of an optimized version of binlister which examines the bin descriptor file and runs a faster binning algorithm if possible. This should lead to a significant speed increase for many users, particularly for data sets with many event codes.
+
+Removed “erplab_box” and all cases where backup files are automatically written (e.g. eventlist backups). Now all writing of files must be user specified.
+
+Added various improvements to history logging in Studio. Most notably, history now includes lines for which data set(s) are selected between function calls.
+
+Made checks/warnings/errors for time window specification in linear detrending, baseline correction, ERP simulation, and artifact detection functions consistent with each other and across Classic and Studio.
+
+Numerous bug fixes and improvements regarding bin and channel operations, including:
+- Issue causing channel interpolation to fail when using newer versions of EEGLAB
+- Issues with channel operations in the case of missing or mismatching channel information or ICA component information
+- Improved Studio history for running channel and bin operations from a file
+- Various issues and inconsistencies in the advanced panel for bin/channel operation in Studio
+- Issues with creating/saving new datasets from bin or channel operations in Studio
+
+Fixed various issues with data set selection and saving in Studio, including:
+- Errors related to MVPCset structures not being initialized
+- Various issues with clearing and refreshing data sets
+- File naming issues when saving ERPsets that could cause a crash
+- Issues causing data set saving to be prompted extra times
+
+### ERPLAB v12.10 Release Notes
+
+This release includes several important bug fixes and GUI improvements to ERPLAB Studio including:
+
+- A critical bug fix for using custom and post-stimulus baselines during ERP measurement
+- Fixes and updates to ERP measurement preview visualization
+- Fixes to plotting filter impulse response functions and artificial ERP waveforms
+- Fixed set name selection issue during averaging of MVPC sets
+- Updated behavior for when resampling ERPs result in no time point at 0
+- Automatic initialization of ERPLAB Studio memory file during first launch (rather than requiring users to launch ERPLAB first)
+- Various updates to GUI button labels
+
+### ERPLAB v12.01 Release Notes
+
+ERPLAB Studio now includes the Pattern Classification tab. This makes use of the same underlying Pattern Classification (decoding) tools as in ERPLAB Classic, but with a more user-friendly GUI. Changes also include:
+- The ability to create BESTsets in the EEG tab
+- The ability to plot multiple MVPC sets at the same time
+
+Several bugs have been fixed and quality of life features are now included.
+
+### ERPLAB v11.04 Release Notes
+
+ERPLAB can now be accessed from two different user interfaces: 
+- [ERPLAB Classic](https://github.com/ucdavis/erplab/wiki/Manual) (our original software, which operates as an EEGLAB plugin)
+- [ERPLAB Studio](https://github.com/ucdavis/erplab/wiki/ERPLAB-Studio-Manual) (a standalone application that provides a more user-friendly GUI)
+
+ERPLAB Studio makes use of the same underlying code as EEGLAB and ERPLAB Classic. It is essentially a different user interface for the same functions. You will therefore get identical results with ERPLAB Studio and ERPLAB Classic, and scripting is the same for both packages. But ERPLAB Studio is much easier to use.
+
+[Click here](https://www.youtube.com/watch?v=lIaKVQ9DD6E) for a 2-minute video overview of ERPLAB Studio. 
+
+The most commonly used EEGLAB functions are available from within ERPLAB Studio. For example, you can import EEG data into ERPLAB Studio, filter the EEG, apply ICA for artifact correction, etc. If you need an EEGLAB function that is not implemented within ERPLAB Studio, you can apply that function using the EEGLAB GUI or a script.
+
+If you are already familiar with ERPLAB, you can rapidly learn how to use ERPLAB Studio with our [Transition Guide](). If you are new to ERPLAB, please go through the [ERPLAB Studio Tutorial](https://github.com/ucdavis/erplab/wiki/ERPLAB-Studio-Tutorial) before attempting to process your own data. Once you understand the basics of ERPLAB Studio, you can get detailed information about the individual processing steps in the [ERPLAB Studio Manual](https://github.com/ucdavis/erplab/wiki/ERPLAB-Studio-Manual).
+
+
+### ERPLAB v10.1 Release Notes
+Now Includes:
+Update to decoding toolbox. By default, beta weights will no longer be saved with MVPC files, dramatically reducing file size. 
+
+MVPCset and BESTset commands will now be saved into EEG working memory history (shown when using the function eegh).
+
+Various quality of life changes and bug fixes across ERPLAB.
+
+
+### ERPLAB v10.04 Release Notes
+Now Includes:
+
+ERP Decoding routine: Users can now apply multivariate-pattern classification routines to binned and epoched ERP data. See [here](https://github.com/ucdavis/erplab/wiki/Decoding-Tutorial) for more information. 
+- NOTE: These routines require at least MATLAB 2020a+ & EEGLAB 2023.1+ in order to work as expected.
+- NOTE: These routines also require the following toolboxes: Matlab Statistics and Machine Learning Toolbox, Matlab Parallel Processing Toolbox (recommended)
+
+Advanced ERP Wave Viewer: Plotting ERP waveforms are easier than ever using "ERP Wave Viewer". See:  ERPLAB > Plot ERPs > Advanced ERP Waveform Viewer (Beta) 
+
+
+## ERPLABv9.20 Release Notes
+Now Includes:
+Create Artificial Waveform Viewer routine: Users can simulate a variety of waveforms to be saved as ERP files (.erp). See documentation [here](https://github.com/lucklab/erplab/wiki/Create-an-Artificial-ERP-Waveform). 
+
+New options for adding noise to data via EEG and ERP channel operations (see [here](https://github.com/lucklab/erplab/wiki/EEG-and-ERP-Channel-Operations#example-of-adding-simulated-noise)). 
+
+Users may now shift string event codes in time in addtion to numeric event codes (see Preprocess EEG > Shift Event Codes (continuous EEG)). 
+
+Various bug fixes across ERPLAB.
+
+
+### ERPLAB v9.10 Release Notes
+Now includes: 
+Updated Data Quality (DQ) metrics specifications on averaged ERP waveforms, including a new metric: SD across trials. 
+
+A new DQ metric for continuous EEG: [Spectral Data Quality (continuous EEG)](https://github.com/lucklab/erplab/wiki/Spectral-Data-Quality-(continuous-eeg))
+
+Various bug fixes concerning bootstrapped SMEs, filtering, and EEG channel operations. 
+
+### ERPLAB v9.00 Release Notes
+Note: ERPLAB v9.00 is the recommended version for use with best practices in ERP data processing and analyses as outlined in Dr. Steven J Luck's new Applied Event-Related Potential Data Analysis e-book [here](https://socialsci.libretexts.org/Bookshelves/Psychology/Book%3A_Applied_Event-Related_Potential_Data_Analysis_(Luck)).
+
+_Now includes:_
+Ability to low-pass filter prior to marking EEG segments with all artifact detection routines (data is not saved with the filter).
+
+Ability to calculate Data Quality measures (e.g. analytic SME) on multiple binned and epoched EEGset files prior to creating ERPs. 
+-More information about the SME can be found [here](https://github.com/lucklab/erplab/wiki/ERPLAB-Data-Quality-Metrics).
+-See Applied Event-Related Potential Data Analysis e-book [here](https://socialsci.libretexts.org/Bookshelves/Psychology/Book%3A_Applied_Event-Related_Potential_Data_Analysis_(Luck)) for best-practices on this approach. 
+
+Various fixes to the GUI layouts for many routines (e.g. "Delete Time Segments" for EEG processing). 
+
+- Older [release Notes can be found here](https://github.com/lucklab/erplab/wiki/Release-Notes)
+
+
+## ERPLAB Help
+
+ERPLAB tutorial, manual, and other documentation can be found on the [ERPLAB wiki, here](https://github.com/lucklab/erplab/wiki).
+
+
